@@ -29,7 +29,7 @@ before_build:
 
 build_script:
   - cmd: bii cpp:build
-  - cmd: move ..\bin\sqlite\sqlite\examples \bin\
+  - cmd: move ..\bin\sqlite\sqlite\examples bin\
 
 test_script:
   - cmd: cd bin
