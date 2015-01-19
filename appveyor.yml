@@ -16,16 +16,13 @@ install:
   - cmd: del cmake.zip  
 
 before_build:
-  - cmd: bii init myproject
-  - cmd: cd myproject
-  - cmd: bii new sqlite/sqlite
-  # Yes, I know, sure this move can be improved
-  - cmd: move ..\* blocks\sqlite\sqlite
-  - cmd: move ..\examples blocks\sqlite\sqlite\
-  - cmd: move ..\include blocks\sqlite\sqlite\
-  - cmd: move ..\sqlite3 blocks\sqlite\sqlite\
-  - cmd: move ..\src blocks\sqlite\sqlite\
-  - cmd: move ..\tests blocks\sqlite\sqlite\
+  - cmd: bii init %project_name%
+  - cmd: cd %project_name%
+  - cmd: bii new %block_user%/%block_name%
+  # move files
+  - cmd: for %%i in (../*) do if %%i NEQ "%project_name%" move "..\%%i" blocks\%block_user%\%block_name%\
+  # move directories
+  - cmd: for /d %%i in (../*) do if %%i NEQ "%project_name%" move "..\%%i" blocks\%block_user%\%block_name%\
 
 build_script:
   - cmd: bii cpp:build
@@ -34,3 +31,11 @@ build_script:
 test_script:
   - cmd: cd bin
   - cmd: sqlite_sqlite_examples_example1_main.exe
+
+environment:
+  project_name:
+    "myproject"
+  block_user:
+    "sqlite"
+  block_name:
+    "sqlite"
